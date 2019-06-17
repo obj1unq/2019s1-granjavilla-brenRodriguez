@@ -1,0 +1,40 @@
+import wollok.game.*
+import farmVille.*
+import hector.*
+
+
+program FarmVille {
+	
+//	CONFIG	
+	game.title("FarmVille")
+	game.height(10)
+	game.width(10)
+	game.ground("ground.png")
+	var hector = new Hector()
+	var mercado1 = new Mercado(monedas=300, mercaderia=[], position =new Position(x=2, y=8))
+	var mercado2 = new Mercado(monedas=0, mercaderia=[], position =new Position(x=9, y=1))
+	
+//	VISUALES
+	game.addVisual(hector)
+	game.addVisual(mercado1)
+	game.addVisual(mercado2)
+	
+	keyboard.up().onPressDo { hector.move(hector.position().up(1)) }
+	keyboard.down().onPressDo { hector.move(hector.position().down(1)) }
+	keyboard.left().onPressDo { hector.move(hector.position().left(1)) }
+	keyboard.right().onPressDo { hector.move(hector.position().right(1)) }
+
+	
+	keyboard.m().onPressDo {hector.sembrar(new Maiz(position = hector.position()))}
+	keyboard.t().onPressDo {hector.sembrar(new Trigo(position = hector.position()))}
+	keyboard.o().onPressDo {hector.sembrar(new Tomaco(position = hector.position()))}
+	
+	keyboard.r().onPressDo {hector.regar()}
+	keyboard.c().onPressDo {hector.cosechar()}
+	keyboard.v().onPressDo {hector.vender()}
+	
+	keyboard.space().onPressDo {game.say(hector,"tengo "+ hector.oroAcumulado() + " monedas, y " + hector.plantasParaVender().size() + " plantas para vender")}
+				
+//	START
+	game.start()
+}
